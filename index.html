@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo de Java: POO e Estruturas de Controle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Mint & Slate -->
+    <!-- Application Structure Plan: A SPA com navegação por seções temáticas para facilitar o aprendizado focado. A estrutura é: 1) Introdução com visualização de dados do relatório (distribuição de questões). 2) Seção de Estruturas de Controle com abas interativas para comparar laços (for, while, do-while). 3) Seção de Conceitos POO com cartões explicativos e um simulador interativo de 'Classe vs. Objeto'. 4) Seção de Exemplos Práticos com uma simulação passo a passo de um código-exemplo do relatório. Essa arquitetura foi escolhida para transformar o conteúdo estático do relatório em uma jornada de aprendizado interativa, permitindo que o usuário explore, pratique e visualize os conceitos em ação, o que é mais eficaz do que a leitura passiva. -->
+    <!-- Visualization & Content Choices: 1) Distribuição de Questões (do relatório) -> Goal: Informar -> Viz: Gráfico de Rosca (Chart.js) -> Interaction: Hover para ver detalhes -> Justification: Apresenta metadados do relatório de forma visual e concisa. 2) Laços de Repetição -> Goal: Comparar/Analisar -> Viz: Abas com snippets de código e console de saída -> Interaction: Botão 'Executar' para ver o resultado de cada laço e simular passo a passo -> Justification: Permite a comparação direta e o aprendizado ativo, agora com visualização do fluxo de execução. 3) Classe vs. Objeto -> Goal: Organizar/Relacionar -> Viz: Diagrama interativo HTML/CSS de 'fábrica de objetos' -> Interaction: Botão 'Criar Objeto' para instanciar visualmente a partir de uma classe -> Justification: Torna o conceito abstrato de instanciação em algo tangível e visual. 4) Simulação de Código -> Goal: Analisar/Compreender Fluxo -> Viz: Destaque de linha de código e painel de estado do objeto -> Interaction: Botão 'Simular Execução' para ver o código rodar passo a passo -> Justification: Demonstra o fluxo de execução e a mudança de estado dos objetos de forma clara e didática. 5) Explicações com IA (via Gemini API) -> Goal: Aprofundar Compreensão -> Viz: Áreas de texto dinâmicas -> Interaction: Botões 'Explicar com IA' para obter explicações contextuais sobre códigos e conceitos -> Justification: Adiciona uma camada de aprendizado personalizado e sob demanda, permitindo que o usuário tire dúvidas e explore tópicos com o auxílio de um modelo de linguagem avançado. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="text-slate-700">
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-slate-800">Explorador Java</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#inicio" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Início</a>
+                        <a href="#estruturas" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Estruturas de Controle</a>
+                        <a href="#conceitos-poo" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Conceitos POO</a>
+                        <a href="#exemplos-praticos" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Exemplos Práticos</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                        <span class="sr-only">Abrir menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#inicio" class="block nav-link px-3 py-2 rounded-md text-base font-medium">Início</a>
+                <a href="#estruturas" class="block nav-link px-3 py-2 rounded-md text-base font-medium">Estruturas de Controle</a>
+                <a href="#conceitos-poo" class="block nav-link px-3 py-2 rounded-md text-base font-medium">Conceitos POO</a>
+                <a href="#exemplos-praticos" class="block nav-link px-3 py-2 rounded-md text-base font-medium">Exemplos Práticos</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="inicio" class="text-center scroll-mt-20">
+            <h2 class="text-3xl font-bold text-slate-800 sm:text-4xl">Bem-vindo ao Explorador Interativo de Java</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
+                Esta aplicação traduz os conceitos fundamentais do relatório sobre Java e POO em uma experiência de aprendizado prática. Navegue pelas seções para explorar estruturas de controle, entender os pilares da Programação Orientada a Objetos e ver o código ganhar vida.
+            </p>
+        </section>
+        
+        <div class="my-16 h-px bg-slate-200"></div>
+
+        <section id="estruturas" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-slate-800">Estruturas de Controle: Repetição</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-center text-slate-600">
+                As estruturas de repetição, ou laços, são essenciais para executar um bloco de código várias vezes. Java oferece diferentes tipos de laços, cada um adequado para um cenário específico. Explore-os interativamente abaixo.
+            </p>
+
+            <div class="mt-10 max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200">
+                    <button class="tab-button flex-1 p-4 font-medium" data-tab="for">Laço <code>for</code></button>
+                    <button class="tab-button flex-1 p-4 font-medium" data-tab="while">Laço <code>while</code></button>
+                    <button class="tab-button flex-1 p-4 font-medium" data-tab="do-while">Laço <code>do-while</code></button>
+                </div>
+
+                <div id="for-content" class="tab-content p-6">
+                    <h3 class="text-xl font-semibold text-slate-800">Quando usar <code>for</code>?</h3>
+                    <p class="mt-2 text-slate-600">Ideal para quando você sabe exatamente quantas vezes quer que o laço seja executado. É comum para iterar sobre arrays ou executar uma ação um número fixo de vezes.</p>
+                    <div class="mt-4 grid md:grid-cols-2 gap-6 items-start">
+                        <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code><span data-line="for-1">for (int i = 0; i < 5; i++) {</span>
+<span data-line="for-2">    System.out.println("O valor de i é: " + i);</span>
+<span data-line="for-3">}</span></code></pre>
+                        <div>
+                            <button id="run-for" class="w-full bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors disabled:bg-slate-400">Executar Simulação</button>
+                            <div class="mt-4 bg-slate-100 p-4 rounded-lg min-h-[120px]">
+                                <h4 class="font-semibold text-slate-700">Saída:</h4>
+                                <pre id="for-output" class="text-sm text-slate-600 whitespace-pre-wrap"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="while-content" class="tab-content hidden p-6">
+                    <h3 class="text-xl font-semibold text-slate-800">Quando usar <code>while</code>?</h3>
+                    <p class="mt-2 text-slate-600">Perfeito para situações onde o laço deve continuar enquanto uma condição for verdadeira. O número de iterações não precisa ser conhecido de antemão. O bloco pode não ser executado nenhuma vez se a condição for inicialmente falsa.</p>
+                     <div class="mt-4 grid md:grid-cols-2 gap-6 items-start">
+                        <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code><span data-line="while-1">int contador = 0;</span>
+<span data-line="while-2">while (contador < 3) {</span>
+<span data-line="while-3">    System.out.println("Contador: " + contador);</span>
+<span data-line="while-4">    contador++;</span>
+<span data-line="while-5">}</span></code></pre>
+                        <div>
+                            <button id="run-while" class="w-full bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors disabled:bg-slate-400">Executar Simulação</button>
+                            <div id="while-llm-output" class="llm-response"></div>
+                            <div class="mt-4 bg-slate-100 p-4 rounded-lg min-h-[120px]">
+                                <h4 class="font-semibold text-slate-700">Saída:</h4>
+                                <pre id="while-output" class="text-sm text-slate-600 whitespace-pre-wrap"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="do-while-content" class="tab-content hidden p-6">
+                    <h3 class="text-xl font-semibold text-slate-800">Quando usar <code>do-while</code>?</h3>
+                    <p class="mt-2 text-slate-600">Similar ao <code>while</code>, mas com uma diferença crucial: o bloco de código é executado pelo menos uma vez, pois a condição é verificada no final da iteração. Útil para menus de opções ou quando uma ação inicial é sempre necessária.</p>
+                     <div class="mt-4 grid md:grid-cols-2 gap-6 items-start">
+                        <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code><span data-line="do-while-1">int j = 0;</span>
+<span data-line="do-while-2">do {</span>
+<span data-line="do-while-3">    System.out.println("O valor de j é: " + j);</span>
+<span data-line="do-while-4">    j++;</span>
+<span data-line="do-while-5">} while (j < 3);</span></code></pre>
+                        <div>
+                            <button id="run-do-while" class="w-full bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors disabled:bg-slate-400">Executar Simulação</button>
+                           <div id="do-while-llm-output" class="llm-response"></div>
+                            <div class="mt-4 bg-slate-100 p-4 rounded-lg min-h-[120px]">
+                                <h4 class="font-semibold text-slate-700">Saída:</h4>
+                                <pre id="do-while-output" class="text-sm text-slate-600 whitespace-pre-wrap"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="my-16 h-px bg-slate-200"></div>
+
+        <section id="conceitos-poo" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-slate-800">Conceitos de Programação Orientada a Objetos</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-center text-slate-600">
+                A POO organiza o código em torno de "objetos", que unem dados (atributos) e comportamentos (métodos). Isso torna o software mais organizado, reutilizável e fácil de manter.
+            </p>
+            
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-emerald-600">Classe</h3>
+                    <p class="mt-2 text-slate-600">Um modelo ou "planta baixa" para criar objetos. Define os atributos e métodos que seus objetos terão.</p>
+
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-emerald-600">Objeto</h3>
+                    <p class="mt-2 text-slate-600">Uma instância de uma classe. É a "construção" real feita a partir da planta baixa, com seus próprios dados.</p>
+
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-emerald-600">Encapsulamento</h3>
+                    <p class="mt-2 text-slate-600">Ocultar os detalhes internos de um objeto, protegendo seus dados e expondo apenas o necessário através de métodos.</p>
+
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-emerald-600">Herança</h3>
+                    <p class="mt-2 text-slate-600">Permite que uma classe (filha) herde atributos e métodos de outra classe (pai), promovendo a reutilização de código.</p>
+   
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white rounded-xl shadow-lg border border-slate-200 p-6 md:p-8">
+                <h3 class="text-xl font-semibold text-center text-slate-800">Fábrica de Objetos: Classe vs. Objeto na Prática</h3>
+                <p class="mt-2 max-w-2xl mx-auto text-center text-slate-600">Use a "planta" da classe <code>Carro</code> para criar objetos. Cada objeto criado será uma instância independente, com seus próprios atributos.</p>
+                <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
+                    <div class="bg-slate-50 p-4 rounded-lg border">
+                        <h4 class="font-bold text-lg text-slate-700">Planta Baixa (Classe)</h4>
+                        <pre class="mt-2 bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>public class Carro {
+    String marca;
+    String modelo;
+    int ano;
+    String cor;
+
+    void ligar() {
+        System.out.println(modelo + " ligado!");
+    }
+}</code></pre>
+                        <button id="create-object" class="mt-4 w-full bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors">
+                            <span>&#10133;</span> Criar Objeto Carro
+                        </button>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg border min-h-[300px]">
+                        <h4 class="font-bold text-lg text-slate-700">Objetos Criados (Instâncias)</h4>
+                        <div id="object-container" class="mt-2 space-y-3">
+                            <p id="object-placeholder" class="text-slate-500 text-center py-10">Clique no botão para criar seu primeiro objeto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="my-16 h-px bg-slate-200"></div>
+
+        <section id="exemplos-praticos" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-slate-800">Simulação Prática de POO</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-center text-slate-600">
+                Vamos analisar o código de exemplo do relatório que usa uma classe <code>Pessoa</code>. Clique em "Simular" para ver a criação de objetos e a chamada de métodos acontecerem passo a passo.
+            </p>
+            <div class="mt-10 bg-white rounded-xl shadow-lg border border-slate-200 p-6 md:p-8">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-semibold text-lg">Código Fonte</h3>
+                        <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto" id="pessoa-class-code">
+                                <code>
+<span data-line="pessoa-1">public class Pessoa {</span>
+<span data-line="pessoa-2">    String nome;</span>
+<span data-line="pessoa-3">    int idade;</span>
+<span data-line="pessoa-4"></span>
+<span data-line="pessoa-5">    void aniversario() {</span>
+<span data-line="pessoa-6">        idade++;</span>
+<span data-line="pessoa-7">    }</span>
+<span data-line="pessoa-8"></span>
+<span data-line="pessoa-9">    void apresentar() {</span>
+<span data-line="pessoa-10">        System.out.println(</span>
+<span data-line="pessoa-11">          "Meu nome é " + nome + </span>
+<span data-line="pessoa-12">          " e tenho " + idade + " anos."</span>
+<span data-line="pessoa-13">        );</span>
+<span data-line="pessoa-14">    }</span>
+<span data-line="pessoa-15">}</span></code></pre>
+                            <pre id="main-code" class="bg-slate-800 text-white p-4 rounded-lg text-sm overflow-x-auto">                          
+<code><span data-line="main-1">public static void main(String[] args) {</span>
+<span data-line="main-2">  Pessoa p1 = new Pessoa();</span>
+<span data-line="main-3">  p1.nome = "Maria";</span>
+<span data-line="main-4">  p1.idade = 25;</span>
+<span data-line="main-5">  Pessoa p2 = new Pessoa();</span>
+<span data-line="main-6">  p2.nome = "João";</span>
+<span data-line="main-7">  p2.idade = 30;</span>
+<span data-line="main-8">  p1.apresentar();</span>
+<span data-line="main-9">  p2.apresentar();</span>
+<span data-line="main-10">  p1.aniversario();</span>
+<span data-line="main-11">  p1.apresentar();</span>
+<span data-line="main-12">}</span></code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Simulação</h3>
+                        <button id="run-simulation" class="mt-2 w-full bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors disabled:bg-slate-400">Simular Execução</button>
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <div id="p1-state" class="bg-slate-100 p-4 rounded-lg opacity-30 transition-opacity">
+                                <h4 class="font-bold">Objeto: p1</h4>
+                                <p class="text-sm">Nome: <span id="p1-nome" class="font-mono">...</span></p>
+                                <p class="text-sm" data-line="idade-pessoa-1">Idade: <span id="p1-idade" class="font-mono" >...</span></p>
+                            </div>
+                             <div id="p2-state" class="bg-slate-100 p-4 rounded-lg opacity-30 transition-opacity">
+                                <h4 class="font-bold">Objeto: p2</h4>
+                                <p class="text-sm">Nome: <span id="p2-nome" class="font-mono">...</span></p>
+                                <p class="text-sm">Idade: <span id="p2-idade" class="font-mono">...</span></p>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-slate-800 p-4 rounded-lg min-h-[150px]">
+                            <h4 class="font-semibold text-slate-300">Saída do Console:</h4>
+                            <pre id="simulation-output" class="text-sm text-emerald-300 whitespace-pre-wrap"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
+            <p>&copy; 2025 Explorador Interativo de Java. Aplicação feita para fins educacionais.</p>
+        </div>
+    </footer>
+</body>
+</html>

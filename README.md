@@ -43,8 +43,8 @@ O **Explorador Interativo de Java** é uma Single Page Application (SPA) educaci
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/seu-usuario/explorador-java-interativo.git
-   cd explorador-java-interativo
+   git clone https://github.com/lenoln-io/poo-java-interativo.git
+   cd poo-java-interativo
    ```
 
 2. **Abra o arquivo principal**:
@@ -114,12 +114,8 @@ Contribuições são bem-vindas! Para contribuir:
 4. Push para a branch (`git push origin feature/nova-funcionalidade`)
 5. Abra um Pull Request
 
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👥 Autor
-
+Lenoln B. A. M. Muniz
 Desenvolvido para fins educacionais como parte do material de apoio ao ensino de Java e Programação Orientada a Objetos.
 
 ## 🔗 Links Úteis
